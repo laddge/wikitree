@@ -26,6 +26,8 @@ class WikiTree:
             rels.append(li.find("a"))  # li要素内の最初のa要素のみ追加
         self.history.append(title)  # ヒストリに追加
         for rel in rels:
+            if ":" in rel.text:
+                continue  # 余計なのスキップ
             self.pairs.append((title, rel.text))  # その記事のタイトルと関連項目のタイトルのペアをリストに追加
             if rel.text in self.history:
                 continue  # 無限ループを防止
