@@ -19,7 +19,7 @@ class WikiTree:
         title = soup.select("#firstHeading")[0].text  # 記事のタイトルを取得
         rels = soup.select("#関連項目")  # 関連項目の見出しを取得
         if not rels:
-            return None  # 記事が存在しない || 関連項目がない ときはNoneを返す
+            return  # 記事が存在しない || 関連項目がない ときはスキップ
         lis = rels[0].parent.find_next_sibling("ul").find_all("li")  # 関連項目に含まれるliタグを全て取得
         rels = []
         for li in lis:
