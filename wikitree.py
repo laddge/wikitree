@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from graphviz import Graph
 
 
 class WikiTree:
@@ -33,11 +34,18 @@ class WikiTree:
     def start(self):
         self.get_wiki(self.q, self.d)
 
+    def render(self, fname="output.png"):
+        g = Graph(format='png', engine="sfdp")
+        g.attr("node", fontname="sans-serif")
+        for p in self.pairs:
+            g.edge(*p)
+        g.render(outfile=fname, cleanup=True)
+
 
 def main(q):
     wt = WikiTree(q)  # WikiTreeオブジェクトを作成
     wt.start()  # 処理開始
-    print(wt.pairs)
+    wt.render("output.png")  # グラフを保存
 
 
 if __name__ == "__main__":
