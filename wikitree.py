@@ -3,12 +3,15 @@ from bs4 import BeautifulSoup
 
 
 class WikiTree:
-    def __init__(self, q):
+    def __init__(self, q, d=3):
         self.q = q
+        self.d = d  # 深さを指定
         self.pairs = []  # 親子関係のペアを格納するリスト
         self.history = []  # 処理済みタイトルのリスト
 
-    def get_wiki(self, q):
+    def get_wiki(self, q, d):
+        if d < 1:
+            return
         url = "https://ja.wikipedia.org/wiki/" + q
         res = requests.get(url)  # GETリクエストを送信
         soup = BeautifulSoup(res.text, "html.parser")  # htmlを解析
@@ -22,10 +25,10 @@ class WikiTree:
             self.pairs.append((title, rel.text))  # その記事のタイトルと関連項目のタイトルのペアをリストに追加
             if rel.text in self.history:
                 continue  # 無限ループを防止
-            self.get_wiki(rel.text)  # 再帰的に処理
+            self.get_wiki(rel.text, d - 1)  # 再帰的に処理
 
     def start(self):
-        self.get_wiki(self.q)
+        self.get_wiki(self.q, self.d)
 
 
 def main(q):
