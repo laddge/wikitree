@@ -19,7 +19,10 @@ class WikiTree:
         rels = soup.select("#関連項目")  # 関連項目の見出しを取得
         if not rels:
             return None  # 記事が存在しない || 関連項目がない ときはNoneを返す
-        rels = rels[0].parent.find_next_sibling("ul").find_all("a")  # 関連項目に含まれるaタグを全て取得
+        lis = rels[0].parent.find_next_sibling("ul").find_all("li")  # 関連項目に含まれるliタグを全て取得
+        rels = []
+        for li in lis:
+            rels.append(li.find("a"))  # li要素内の最初のa要素のみ追加
         self.history.append(title)  # ヒストリに追加
         for rel in rels:
             self.pairs.append((title, rel.text))  # その記事のタイトルと関連項目のタイトルのペアをリストに追加
