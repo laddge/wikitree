@@ -11,8 +11,13 @@ def get_wiki(q):
     pairs = []
     for rel in rels:
         pairs.append((title, rel.text))  # その記事のタイトルと関連項目のタイトルのペアをリストに追加
+    return pairs
+
+
+def main(q):
+    pairs = get_wiki(q)  # タイトルのペアのリストを取得
     print(pairs)
 
 
 if __name__ == "__main__":
-    get_wiki("夏休み")  # stdout: [('夏休み', 'お盆'), ('夏休み', '春休み'), ('夏休み', '秋休み'), ('夏休み', '冬休み')]
+    main("夏休み")  # stdout: [('夏休み', 'お盆'), ('夏休み', '春休み'), ('夏休み', '秋休み'), ('夏休み', '冬休み')]
